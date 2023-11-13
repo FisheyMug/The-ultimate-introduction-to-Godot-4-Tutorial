@@ -109,6 +109,9 @@ texture = ExtResource("5_paa3c")
 position = Vector2(-895, 1312)
 texture = ExtResource("5_paa3c")
 
+[node name="Steam" parent="ground" instance=ExtResource("9_tp1ar")]
+position = Vector2(1894, 420)
+
 [node name="House" parent="ground" instance=ExtResource("6_d4snq")]
 position = Vector2(-1092, 2286)
 rotation = -2.37714
@@ -128,9 +131,6 @@ zoom = Vector2(0.6, 0.6)
 position_smoothing_enabled = true
 
 [node name="projectiles" type="Node2D" parent="."]
-
-[node name="Steam" parent="." instance=ExtResource("9_tp1ar")]
-position = Vector2(1894, 420)
 
 [connection signal="playerEnteredGate" from="Gate" to="." method="_on_gate_player_entered_gate"]
 [connection signal="grenade" from="Player" to="." method="_on_player_grenade"]
