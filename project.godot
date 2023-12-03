@@ -11,9 +11,14 @@ config_version=5
 [application]
 
 config/name="Shooter tutorial"
-run/main_scene="res://scenes/level/level.tscn"
+run/main_scene="res://scenes/level/outside.tscn"
 config/features=PackedStringArray("4.1", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Globals="*res://globals/Globals.gd"
+TransistionLayer="*res://globals/transistion_layer.tscn"
 
 [input]
 

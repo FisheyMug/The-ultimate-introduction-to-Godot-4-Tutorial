@@ -1,0 +1,56 @@
+[gd_scene load_steps=7 format=3 uid="uid://o30j7ihomwou"]
+
+[ext_resource type="Texture2D" uid="uid://84pfjsfydd0c" path="res://graphics/enemies/scout.png" id="1_17jxe"]
+[ext_resource type="Script" path="res://scenes/enemies/scout.gd" id="1_xs5n7"]
+[ext_resource type="Shader" path="res://scenes/enemies/scout.gdshader" id="2_sivbl"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_njsk4"]
+shader = ExtResource("2_sivbl")
+shader_parameter/color = Color(0.890196, 0.65098, 0.466667, 1)
+shader_parameter/progress = 0.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oi8a0"]
+radius = 64.7765
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yijac"]
+radius = 1036.13
+
+[node name="Scout" type="CharacterBody2D" groups=["Entity", "Scouts"]]
+collision_layer = 2
+collision_mask = 11
+script = ExtResource("1_xs5n7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_njsk4")
+position = Vector2(42, 25)
+rotation = 1.5708
+texture = ExtResource("1_17jxe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_oi8a0")
+
+[node name="AttackArea" type="Area2D" parent="."]
+collision_layer = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+visible = false
+shape = SubResource("CircleShape2D_yijac")
+
+[node name="LaserSpawnPositions" type="Node2D" parent="."]
+
+[node name="Marker2D" type="Marker2D" parent="LaserSpawnPositions"]
+position = Vector2(120, -28)
+
+[node name="Marker2D2" type="Marker2D" parent="LaserSpawnPositions"]
+position = Vector2(128, 11)
+
+[node name="LaserCooldown" type="Timer" parent="."]
+
+[node name="DamageDelay" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
+[connection signal="body_exited" from="AttackArea" to="." method="_on_attack_area_body_exited"]
+[connection signal="timeout" from="LaserCooldown" to="." method="_on_laser_cooldown_timeout"]
+[connection signal="timeout" from="DamageDelay" to="." method="_on_damage_delay_timeout"]

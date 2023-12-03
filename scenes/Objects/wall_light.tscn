@@ -11,6 +11,7 @@ height = 854.0
 polygon = PackedVector2Array(-759, -89, -897, -86, -888, -130, -836, -178, -776, -205, -232, -201, -163, -176, -120, -121, -114, -91, -259, -84, -252, -178, -763, -184)
 
 [node name="Wall Light" type="StaticBody2D"]
+collision_layer = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-510, -154)

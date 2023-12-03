@@ -1,127 +1,21 @@
-[gd_scene load_steps=15 format=3 uid="uid://mkwni2lihgka"]
+[gd_scene load_steps=4 format=3 uid="uid://mkwni2lihgka"]
 
-[ext_resource type="Texture2D" uid="uid://3iv1lvxsdfap" path="res://graphics/ground/stones.png" id="1_xwalf"]
-[ext_resource type="PackedScene" uid="uid://defynssljd4ad" path="res://scenes/player/player (2).tscn" id="2_aqwbx"]
-[ext_resource type="Texture2D" uid="uid://dr8xxuh3xjlof" path="res://graphics/decals/dirt_patch.png" id="2_lgx8l"]
-[ext_resource type="PackedScene" uid="uid://cpjoljyg1nak4" path="res://scenes/Objects/gate.tscn" id="2_sa2mp"]
-[ext_resource type="Texture2D" uid="uid://c8vftumfpj4i6" path="res://graphics/tilesets/outside_walls.png" id="3_kdaqo"]
-[ext_resource type="Texture2D" uid="uid://py4ec3jfjyj0" path="res://graphics/tilesets/soil.png" id="4_j84af"]
-[ext_resource type="Texture2D" uid="uid://du7jvcskvapta" path="res://graphics/decals/moss/moss_1.png" id="5_paa3c"]
-[ext_resource type="PackedScene" uid="uid://bxlo25jsbdpsc" path="res://scenes/house/house.tscn" id="6_d4snq"]
-[ext_resource type="PackedScene" uid="uid://henif71gs5w3" path="res://scenes/Objects/light_fan_animation.tscn" id="7_h7ej2"]
-[ext_resource type="PackedScene" uid="uid://cdg5qhmce1026" path="res://scenes/Objects/steam.tscn" id="9_tp1ar"]
-
-[sub_resource type="GDScript" id="GDScript_8e5lh"]
-script/source = "extends Node2D
-
-var laser_scene: PackedScene = preload(\"res://scenes/projectiles/laser.tscn\")
-var grenade_scene: PackedScene = preload(\"res://scenes/projectiles/grenade.tscn\")
-
-func _on_gate_player_entered_gate():
-	print(\"entered!\")
-
-
-func _on_player_grenade(pos, direction):
-	var grenade = grenade_scene.instantiate() as RigidBody2D
-	grenade.position = pos
-	grenade.linear_velocity = direction * grenade.speed
-	$projectiles.add_child(grenade)
-
-func _on_player_laser_fired(pos, direction):
-	var laser = laser_scene.instantiate() as Area2D
-	laser.position = pos
-	laser.direction = direction
-	#an alternative way to rotate the image to have it match up
-	laser.rotation_degrees = rad_to_deg(direction.angle()) + 90
-	$projectiles.add_child(laser)
-"
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pgtyi"]
-resource_name = "walls"
-texture = ExtResource("3_kdaqo")
-texture_region_size = Vector2i(390, 390)
-0:0/0 = 0
-1:0/0 = 0
-2:0/0 = 0
-0:1/0 = 0
-1:1/0 = 0
-2:1/0 = 0
-0:2/0 = 0
-1:2/0 = 0
-2:2/0 = 0
-0:3/0 = 0
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g4nem"]
-resource_name = "soil"
-texture = ExtResource("4_j84af")
-texture_region_size = Vector2i(390, 390)
-0:0/0 = 0
-1:0/0 = 0
-2:0/0 = 0
-0:1/0 = 0
-1:1/0 = 0
-2:1/0 = 0
-0:2/0 = 0
-1:2/0 = 0
-2:2/0 = 0
-
-[sub_resource type="TileSet" id="TileSet_ah8rb"]
-tile_size = Vector2i(390, 390)
-sources/0 = SubResource("TileSetAtlasSource_pgtyi")
-sources/1 = SubResource("TileSetAtlasSource_g4nem")
+[ext_resource type="Script" path="res://scenes/level/level.gd" id="1_wetfq"]
+[ext_resource type="PackedScene" uid="uid://defynssljd4ad" path="res://scenes/player/player.tscn" id="2_aqwbx"]
+[ext_resource type="PackedScene" uid="uid://dovg5q3yc24b2" path="res://scenes/UserInterface/ui.tscn" id="3_v7crd"]
 
 [node name="Level" type="Node2D"]
-script = SubResource("GDScript_8e5lh")
+script = ExtResource("1_wetfq")
+
+[node name="Decals" type="Node2D" parent="."]
 
 [node name="ground" type="Node2D" parent="."]
 
-[node name="soil" type="Sprite2D" parent="ground"]
-texture_repeat = 2
-position = Vector2(956.25, 408.5)
-scale = Vector2(1.50932, 2.32562)
-texture = ExtResource("1_xwalf")
-region_enabled = true
-region_rect = Rect2(-300.48, -12.0875, 3755.73, 1944.32)
+[node name="Items" type="Node2D" parent="."]
 
-[node name="decoration" type="Sprite2D" parent="ground"]
-modulate = Color(0.870588, 0.552941, 0.254902, 0.560784)
-position = Vector2(-323, 709)
-texture = ExtResource("2_lgx8l")
+[node name="projectiles" type="Node2D" parent="."]
 
-[node name="TileMap" type="TileMap" parent="ground"]
-tile_set = SubResource("TileSet_ah8rb")
-format = 2
-layer_0/name = "soil"
-layer_0/tile_data = PackedInt32Array(-4, 65537, 1, -3, 65537, 1, 65533, 131073, 2, 65532, 65537, 2, 65531, 65537, 2, -5, 65537, 1, -262139, 1, 1, -196603, 1, 1, -131067, 1, 1, -65531, 1, 1, 5, 1, 1, 65541, 65537, 1, 65540, 1, 0, 131076, 1, 1, 196612, 1, 1, 262148, 1, 2, 262149, 65537, 2, 262150, 65537, 2, 262151, 65537, 2, 262152, 65537, 2, 262153, 131073, 2, -327675, 1, 0, -327674, 65537, 0, -327673, 65537, 0, -327672, 65537, 0, -327671, 131073, 0, -262135, 131073, 1, -196599, 131073, 1, -131063, 131073, 1, -65527, 131073, 1, 9, 131073, 1, 65545, 131073, 1, 131081, 131073, 1, 196617, 131073, 1, 131080, 65537, 1, 65544, 65537, 1, 8, 65537, 1, -65528, 65537, 1, -131064, 65537, 1, -196600, 65537, 1, -262136, 65537, 1, -262137, 65537, 1, -262138, 65537, 1, -196602, 65537, 1, -131066, 65537, 1, -65530, 65537, 1, 6, 65537, 1, 65542, 65537, 1, 131078, 65537, 1, 131077, 65537, 1, 196613, 65537, 1, 196614, 65537, 1, 196615, 65537, 1, 131079, 65537, 1, 65543, 65537, 1, 7, 65537, 1, -65529, 65537, 1, -131065, 65537, 1, -196601, 65537, 1, 196616, 65537, 1)
-layer_1/name = "Walls"
-layer_1/enabled = true
-layer_1/modulate = Color(1, 1, 1, 1)
-layer_1/y_sort_enabled = false
-layer_1/y_sort_origin = 0
-layer_1/z_index = 0
-layer_1/tile_data = PackedInt32Array(-5, 65536, 0, -4, 65536, 0, -6, 0, 0, 65540, 65536, 1, 131076, 0, 3, 196612, 0, 1, 65541, 131072, 2, 5, 0, 2, -65531, 0, 2, -131067, 0, 2, -196603, 0, 2, -262139, 0, 2, 262148, 65536, 2, 262149, 65536, 0, 262150, 65536, 0, 262151, 65536, 0, 262152, 65536, 0, 262153, 65536, 0)
-
-[node name="moss" type="Sprite2D" parent="ground"]
-position = Vector2(1908, 346)
-texture = ExtResource("5_paa3c")
-
-[node name="moss2" type="Sprite2D" parent="ground"]
-position = Vector2(-895, 1312)
-texture = ExtResource("5_paa3c")
-
-[node name="Steam" parent="ground" instance=ExtResource("9_tp1ar")]
-position = Vector2(1894, 420)
-
-[node name="House" parent="ground" instance=ExtResource("6_d4snq")]
-position = Vector2(-1092, 2286)
-rotation = -2.37714
-scale = Vector2(0.5, 0.5)
-
-[node name="LightFanAnimation" parent="ground" instance=ExtResource("7_h7ej2")]
-position = Vector2(-1288, 1728)
-autoplay = "default"
-
-[node name="Gate" parent="." instance=ExtResource("2_sa2mp")]
+[node name="Enemies" type="Node2D" parent="."]
 
 [node name="Player" parent="." instance=ExtResource("2_aqwbx")]
 position = Vector2(518, 546)
@@ -130,8 +24,9 @@ position = Vector2(518, 546)
 zoom = Vector2(0.6, 0.6)
 position_smoothing_enabled = true
 
-[node name="projectiles" type="Node2D" parent="."]
+[node name="Lights" type="Node2D" parent="."]
 
-[connection signal="playerEnteredGate" from="Gate" to="." method="_on_gate_player_entered_gate"]
+[node name="UI" parent="." instance=ExtResource("3_v7crd")]
+
 [connection signal="grenade" from="Player" to="." method="_on_player_grenade"]
 [connection signal="laserFired" from="Player" to="." method="_on_player_laser_fired"]
