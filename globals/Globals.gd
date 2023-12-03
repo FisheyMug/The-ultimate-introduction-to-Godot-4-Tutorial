@@ -2,6 +2,8 @@ extends Node
 
 signal  stat_change
 
+var player_hit_sound: AudioStreamPlayer2D 
+
 var laser_amount = 20 :
 	set(value):
 		laser_amount = value
@@ -25,6 +27,7 @@ var health = 80 :
 				health = value
 				damage_delay = false
 				player_damage_delay()
+				player_hit_sound.play()
 		stat_change.emit()
 
 func player_damage_delay():
@@ -32,3 +35,8 @@ func player_damage_delay():
 	damage_delay = true
 
 var player_position: Vector2
+
+func _ready():
+	player_hit_sound = AudioStreamPlayer2D.new()
+	player_hit_sound.stream = load("res://audio/solid_impact.ogg")
+	add_child(player_hit_sound)

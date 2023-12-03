@@ -32,9 +32,11 @@ func hit():
 		health -= 10
 		$droneImage.material.set_shader_parameter("progress", 1)
 		$HitTimer.start()
+		$AudioStreamPlayer2D.play()
 	if health <=0:
 		active = false
 		$AnimationPlayer.play("explosion")
+		$droneImage.hide()
 		explosion_active = true
 
 

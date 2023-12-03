@@ -14,7 +14,10 @@ func hit():
 		can_damage = false
 		$DamageDelay.start()
 		$Sprite2D.material.set_shader_parameter("progress", 1)
+		$AudioStreamPlayer2D.play()
 		if health <=0:
+			$Explosion.play()
+			await $Explosion.finished
 			queue_free()
 
 func _process(_delta):
